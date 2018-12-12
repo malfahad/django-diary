@@ -88,6 +88,7 @@ if DEBUG :
 else:
     db_url = os.getenv('DATBASE_URL')
     db_url_parts  = urllib.parse.urlparse(db_url)
+    
     DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',

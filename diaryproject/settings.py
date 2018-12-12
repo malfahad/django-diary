@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['0.0.0.0:0']
 # Application definition
 
 INSTALLED_APPS = [
+    'diary.apps.DiaryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,7 +76,8 @@ WSGI_APPLICATION = 'diaryproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-if DEBUG :
+IS_HEROKU = os.getenv('IS_HEROKU')
+if not IS_HEROKU :
     DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',

@@ -1,3 +1,11 @@
 from django.db import models
 
-# Create your models here.
+
+class Diary(models.Model):
+    diary_name = models.CharField(max_length = 80)
+    created_date = models.DateTimeField('date created')
+    
+class Message(models.Model):
+    diary = models.ForeignKey(Diary, on_delete=models.CASCADE)
+    post_text = models.CharField(max_length = 200)
+    posted_date = models.DateTimeField('date posted')

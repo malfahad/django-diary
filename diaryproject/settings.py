@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import urllib.parse
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -87,8 +88,9 @@ if DEBUG :
     }
 else:
     db_url = os.getenv('DATBASE_URL')
+    print(db_url)
     db_url_parts  = urllib.parse.urlparse(db_url)
-    
+
     DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -138,3 +140,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+django_heroku.settings(locals())

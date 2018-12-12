@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import urllib.parse
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')&_9%##qq+wc*5%f)k+xq%ot@1^5nl00_dp(vm(0_f3s$dn)y@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0:0']
 
 
 # Application definition
@@ -73,7 +74,8 @@ WSGI_APPLICATION = 'diaryproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
+if DEBUG :
+    DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diarydb',
@@ -82,7 +84,20 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
-}
+    }
+else:
+    db_url = os.getenv('DATBASE_URL')
+    db_url_parts  = urllib.parse.urlparse(db_url)
+    DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': db_url_parts.path[1:],
+        'USER': db_url_parts.username,
+        'PASSWORD': db_url_parts.password,
+        'HOST': db_url_parts.hostname,
+        'PORT': db_url_parts.port,
+    }
+    }
 
 
 # Password validation
